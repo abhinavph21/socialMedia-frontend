@@ -1,11 +1,13 @@
 import React from 'react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from "yup";
+import { useDispatch } from 'react-redux'
 
 import {
     TextField,
     Button
 } from "@mui/material";
+import { loginUser } from '../../auth/auth.action';
 
 const validationSchema = Yup.object().shape({
 
@@ -14,18 +16,18 @@ const validationSchema = Yup.object().shape({
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
 });
+const initialValues = {
+    email: "",
+    password: "",
+};
 
 const LoginForm = () => {
 
-    const initialValues = {
-        email: "",
-        password: "",
-    };
-
+    const dispatch = useDispatch()
     const handleSubmit = (values, { setSubmitting }) => {
         // Handle form submission here
         console.log(values);
-
+        dispatch(loginUser({ data: values }))
     };
 
     return (

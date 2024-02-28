@@ -10,6 +10,9 @@ import {
     Radio,
 } from "@mui/material";
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../auth/auth.action";
+
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
@@ -19,20 +22,22 @@ const validationSchema = Yup.object().shape({
         .required("Password is required"),
 });
 
+const initialValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    gender: "male",
+};
+
 function RegistrationForm() {
     // const navigate = useNavigate();
-
-    const initialValues = {
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        gender: "male",
-    };
+    const dispatch = useDispatch()
 
     const handleSubmit = (values, { setSubmitting }) => {
         // Handle form submission here
         console.log(values);
+        dispatch(registerUser({ data: values }))
     };
 
     return (
@@ -136,7 +141,7 @@ function RegistrationForm() {
                 </Form>
             </Formik>
             <div className="flex items-center space-x-1 mt-5 justify-center">
-                <p>if you have already account ?</p>
+                <p>if you already have an account </p>
                 <Button size="small">
                     Login
                 </Button>
