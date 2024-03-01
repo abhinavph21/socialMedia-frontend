@@ -1,3 +1,4 @@
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Authentication from './pages/Authentication/Authentication';
@@ -9,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/*" element={<HomePage />} />
         <Route path="/message" element={<Message />} />
         <Route path="/*" element={<Authentication />} />
       </Routes >
