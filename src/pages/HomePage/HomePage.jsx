@@ -31,11 +31,13 @@ const HomePage = () => {
                         <Route path="/profile/:id" element={<Profile />} />
                     </Routes>
                 </Grid>
-                <Grid className="relative " item lg={3}>
-                    <div className="sticky top-0  w-full">
-                        <HomeRight />
-                    </div>
-                </Grid>
+                {(location.pathname === "/") && (
+                    <Grid className="relative " item lg={3}>
+                        <div className="sticky top-0  w-full">
+                            <HomeRight />
+                        </div>
+                    </Grid>
+                )}
             </Grid>
         </div>
     )

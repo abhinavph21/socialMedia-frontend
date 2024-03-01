@@ -24,7 +24,7 @@ const PostCard = () => {
     return (
         <div className="card" sx={{ w: "100%" }}>
             <CardHeader
-                className=""
+                className="text-left"
                 avatar={
                     <Avatar sx={{ bgcolor: "#212534", color: "rgb(88,199,250)" }} aria-label="recipe">
                         {item?.user?.firstName[0]}
@@ -50,7 +50,7 @@ const PostCard = () => {
                 alt={item.caption}
             />
             <CardContent>
-                <Typography variant="body2" color="primary">
+                <Typography variant="body2" color="primary" className='text-left'>
                     {item?.caption}
                 </Typography>
             </CardContent>
