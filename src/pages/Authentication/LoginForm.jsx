@@ -2,6 +2,8 @@ import React from 'react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from "yup";
 import { useDispatch } from 'react-redux'
+import { useNavigate } from "react-router-dom";
+
 
 import {
     TextField,
@@ -24,6 +26,9 @@ const initialValues = {
 const LoginForm = () => {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate();
+
+
     const handleSubmit = (values, { setSubmitting }) => {
         // Handle form submission here
         console.log(values);
@@ -80,7 +85,7 @@ const LoginForm = () => {
             </Formik>
             <div className="flex items-center space-x-1 mt-5 justify-center">
                 <p>if you don't have account ?</p>
-                <Button onClick={() => { }} size="small">
+                <Button onClick={() => { navigate("/register") }} size="small">
                     Register
                 </Button>
             </div>

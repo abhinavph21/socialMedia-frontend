@@ -33,6 +33,8 @@ const initialValues = {
 function RegistrationForm() {
     // const navigate = useNavigate();
     const dispatch = useDispatch()
+    const navigate = useNavigate();
+
 
     const handleSubmit = (values, { setSubmitting }) => {
         // Handle form submission here
@@ -142,7 +144,7 @@ function RegistrationForm() {
             </Formik>
             <div className="flex items-center space-x-1 mt-5 justify-center">
                 <p>if you already have an account </p>
-                <Button size="small">
+                <Button onClick={() => navigate("/login")} size="small">
                     Login
                 </Button>
             </div>
