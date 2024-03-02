@@ -14,7 +14,7 @@ const HomeRight = () => {
                 </div>
 
                 <div className="space-y-5">
-                    {popularUser.map((index) => (
+                    {popularUser.map((data, index) => (
                         <PopularUserCard
                             key={index}
                             image="https://cdn.pixabay.com/photo/2016/11/29/20/22/girl-1871104_1280.jpg"

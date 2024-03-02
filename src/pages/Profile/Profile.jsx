@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar, Box, Button, Card, Tab, Tabs } from "@mui/material";
 import PostCard from '../../components/Post/PostCard';
 import UserReelsCard from '../Reels/UserReelsCard';
+import ProfileModal from './ProfileModal';
 
 const tabs = [
     { value: "post", name: "Post" },
@@ -26,6 +27,10 @@ const Profile = () => {
         bio: "living life to fullest",
         savedPosts: [1, 1, 1, 1, 1]
     }
+    const [openModel, setOpenModal] = useState(false);
+    const handleCloseProfileModal = () => setOpenModal(false);
+    const handleOpenProfileModal = () => setOpenModal(true);
+
     return (
         <div className="py-10  w-[70%] ">
             <div className="rounded-md  ">
@@ -116,6 +121,9 @@ const Profile = () => {
                     </div>
                 </section>
             </div>
+            <section>
+                <ProfileModal open={openModel} handleClose={handleCloseProfileModal} />
+            </section>
         </div>
     )
 }

@@ -23,8 +23,8 @@ const MiddlePart = () => {
                     <p>New</p>
                 </div>
 
-                {story.map((item) => (
-                    <StoryCircle />
+                {story.map((item, idx) => (
+                    <StoryCircle key={idx} />
                 ))}
             </div>
             <div className="card p-5 mt-5">
@@ -62,10 +62,8 @@ const MiddlePart = () => {
                 </div>
             </div>
             <div className="mt-5 space-y-5">
-                {posts.map(() => (
-                    <>
-                        <PostCard />
-                    </>
+                {posts.map((item, idx) => (
+                    <PostCard key={idx} />
                 ))}
             </div>
         </div >

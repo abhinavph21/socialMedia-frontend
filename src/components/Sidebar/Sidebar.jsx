@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from "react-router-dom";
 import { Avatar, Button, Divider, Menu, MenuItem } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-
+import { useSelector } from 'react-redux'
 import { navigationMenu } from './NavigationMenu'
 
 const Sidebar = () => {
@@ -10,6 +10,7 @@ const Sidebar = () => {
     const openLogoutMenu = Boolean(anchorEl);
     // const { auth } = useSelector((store) => store);
 
+    const { auth } = useSelector(store => store)
     const navigate = useNavigate();
     // const dispatch = useDispatch();
 
@@ -27,10 +28,12 @@ const Sidebar = () => {
                     <span className="logo">Social Media</span>
                 </div>
                 <div className="space-y-8">
-                    {navigationMenu.map((item) => (
-                        <div
+                    {navigationMenu.map((item, idx) => (
+                        <div key={idx}
                             onClick={() =>
-                                navigate(`${item.path}`)
+                                item.title === "Profile"
+                                    ? navigate(`/profile/${auth.user.id}`)
+                                    : navigate(`${item.path}`)
                             }
                             className="cursor-pointer flex space-x-3 items-center"
                         >
@@ -50,8 +53,8 @@ const Sidebar = () => {
                         />
 
                         <div>
-                            <p className="font-bold">abhinav pharswan</p>
-                            {/* <p className="opacity-70">abhinav</p> */}
+                            <p className="font-bold">{auth?.user?.firstName + " " + auth?.user?.lastName}</p>
+                            <p className="opacity-70">@{auth?.user?.firstName + "_" + auth?.user?.lastName}</p>
                         </div>
                     </div>
                     <Button
