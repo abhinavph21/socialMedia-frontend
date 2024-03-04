@@ -12,7 +12,8 @@ import {
 import { useFormik } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from 'react-redux';
-import { updateUserProfile } from '../../auth/auth.action';
+import { updateUserProfile } from '../../redux/auth/auth.action';
+
 const style = {
     position: "absolute",
     top: "50%",

@@ -1,17 +1,32 @@
-import React from 'react'
-// import styles from './index.css'
+import React, { useState, useEffect } from 'react'
 import { Avatar, Card, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ImageIcon from "@mui/icons-material/Image";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import ArticleIcon from "@mui/icons-material/Article";
 import StoryCircle from './StoryCircle';
+import { useDispatch } from 'react-redux';
 import PostCard from '../Post/PostCard';
+import CreatePostModal from '../CreatePost/CreatePostModal';
+
+import { getAllPost } from '../../redux/post/post.action';
+import { useSelector } from 'react-redux';
+
+const story = [1, 1, 1, 1]
+// const posts = [1, 1, 1, 1]
 
 const MiddlePart = () => {
-    const story = [1, 1, 1, 1]
-    const posts = [1, 1, 1, 1]
-    const handleOpenCreatePostModal = () => { };
+    const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
+    const dispatch = useDispatch()
+
+    const posts = useSelector((store) => store.post.posts)
+
+    useEffect(() => {
+        dispatch(getAllPost());
+    }, []);
+
+    const handleOpenCreatePostModal = () => setOpenCreatePostModal(true);
+    const handleCloseCreatePostModal = () => setOpenCreatePostModal(false);
 
     return (
         <div className="px-20">
@@ -31,6 +46,7 @@ const MiddlePart = () => {
                 <div className="flex justify-between">
                     <Avatar sx={{ bgcolor: "#212534", color: "rgb(88,199,250)" }} className="bg-[black]" />
                     <input
+                        onClick={handleOpenCreatePostModal}
                         placeholder="Create new post..."
                         className="outline-none w-[90%] bg-slate-100 rounded-full px-5 bg-transparent border border-[#3b4054]"
                         readOnly
@@ -63,9 +79,13 @@ const MiddlePart = () => {
             </div>
             <div className="mt-5 space-y-5">
                 {posts.map((item, idx) => (
-                    <PostCard key={idx} />
+                    <PostCard key={idx} item={item} />
                 ))}
             </div>
+            <CreatePostModal
+                open={openCreatePostModal}
+                handleClose={handleCloseCreatePostModal}
+            />
         </div >
     )
 }

@@ -9,7 +9,7 @@ import {
     TextField,
     Button
 } from "@mui/material";
-import { loginUser } from '../../auth/auth.action';
+import { loginUser } from '../../redux/auth/auth.action';
 
 const validationSchema = Yup.object().shape({
 

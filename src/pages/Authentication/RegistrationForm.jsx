@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux";
-import { registerUser } from "../../auth/auth.action";
+import { registerUser } from "../../redux/auth/auth.action";
 
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),

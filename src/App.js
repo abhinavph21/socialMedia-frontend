@@ -6,11 +6,11 @@ import { Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import HomePage from './pages/HomePage/HomePage.jsx'
 import Message from './pages/Message/Message.jsx'
-import { getUserProfile } from './auth/auth.action.js';
+import { getUserProfile } from './redux/auth/auth.action.js';
 
 function App() {
   const dispatch = useDispatch();
-  const { auth } = useSelector(store => store)
+  const auth = useSelector(store => store.auth)
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt")

@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { API_BASE_URL } from '../config/api'
+import { API_BASE_URL } from '../../config/api'
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, GET_PROFILE_REUEST, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE } from './auth.actionType';
-import { api } from '../config/api';
+import { api } from '../../config/api';
 
 export const loginUser = (loginData) => async (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });

@@ -10,7 +10,7 @@ const Sidebar = () => {
     const openLogoutMenu = Boolean(anchorEl);
     // const { auth } = useSelector((store) => store);
 
-    const { auth } = useSelector(store => store)
+    const auth = useSelector(store => store.auth)
     const navigate = useNavigate();
     // const dispatch = useDispatch();
 

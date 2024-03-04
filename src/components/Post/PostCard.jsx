@@ -12,15 +12,8 @@ import ShareIcon from "@mui/icons-material/Share";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 
-const PostCard = () => {
-    let item = {
-        user: {
-            firstName: "abhinav",
-            lastName: "pharswan"
-        },
-        image: "https://cdn.pixabay.com/photo/2023/05/05/06/19/street-7971714_1280.jpg",
-        caption: "post1 by abhinav"
-    }
+const PostCard = ({ item }) => {
+
     return (
         <div className="card" sx={{ w: "100%" }}>
             <CardHeader
