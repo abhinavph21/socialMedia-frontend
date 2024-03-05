@@ -46,7 +46,7 @@ export const getUserProfile = (jwt) => async (dispatch) => {
             }
         });
         const user = response.data;
-        console.log("login user -: ", user);
+        // console.log("login user -: ", user);
 
         dispatch({ type: GET_PROFILE_SUCCESS, payload: user });
     } catch (error) {
