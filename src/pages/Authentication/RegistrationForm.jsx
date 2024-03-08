@@ -38,8 +38,13 @@ function RegistrationForm() {
 
     const handleSubmit = (values, { setSubmitting }) => {
         // Handle form submission here
-        console.log(values);
-        dispatch(registerUser({ data: values }))
+        try {
+            console.log(values);
+            dispatch(registerUser({ data: values }))
+            navigate("/")
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (

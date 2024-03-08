@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { API_BASE_URL } from '../../config/api'
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, GET_PROFILE_REUEST, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE } from './auth.actionType';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, GET_PROFILE_REUEST, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE, SEARCH_USER_SUCCESS, SEARCH_USER_FAILURE } from './auth.actionType';
 import { api } from '../../config/api';
 
 export const loginUser = (loginData) => async (dispatch) => {
@@ -67,5 +67,19 @@ export const updateUserProfile = (reqData) => async (dispatch) => {
         dispatch({ type: UPDATE_USER_SUCCESS, payload: user });
     } catch (error) {
         dispatch({ type: UPDATE_USER_FAILURE, payload: error.message });
+    }
+};
+
+export const searchUser = (query) => async (dispatch) => {
+    dispatch({ type: GET_PROFILE_REUEST });
+    try {
+        const response = await api.get(`${API_BASE_URL}/api/users/search?query=${query}`);
+        const users = response.data;
+
+        dispatch({ type: SEARCH_USER_SUCCESS, payload: users });
+    } catch (error) {
+        dispatch(
+            { type: SEARCH_USER_FAILURE, payload: error.message }
+        );
     }
 };

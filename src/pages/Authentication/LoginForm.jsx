@@ -31,8 +31,13 @@ const LoginForm = () => {
 
     const handleSubmit = (values, { setSubmitting }) => {
         // Handle form submission here
-        console.log(values);
-        dispatch(loginUser({ data: values }))
+        try {
+            console.log(values);
+            dispatch(loginUser({ data: values }))
+            navigate("/")
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (

@@ -18,6 +18,11 @@ code {
 @tailwind components;
 @tailwind utilities;
 
+.hideScrollbar::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+
 .card {
   background: #fbfbfb;
   position: relative;

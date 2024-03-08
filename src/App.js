@@ -23,7 +23,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path='/*' element={auth.user ? <HomePage /> : <Authentication />} />
-        <Route path="/message" element={<Message />} />
+        <Route path="/messages" element={<Message />} />
         <Route path="/*" element={<Authentication />} />
       </Routes >
     </div>
