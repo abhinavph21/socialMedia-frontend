@@ -36,6 +36,8 @@ const MiddlePart = () => {
         dispatch(getAllPost());
     }, []);
 
+    // console.log(post);
+
     const handleOpenCreatePostModal = () => setOpenCreatePostModal(true);
     const handleCloseCreatePostModal = () => setOpenCreatePostModal(false);
 

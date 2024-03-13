@@ -3,8 +3,6 @@ import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from "yup";
 import { useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom";
-
-
 import {
     TextField,
     Button
@@ -34,7 +32,10 @@ const LoginForm = () => {
         try {
             console.log(values);
             dispatch(loginUser({ data: values }))
-            navigate("/")
+            setTimeout(() => {
+                console.log("delay");
+                navigate("/")
+            }, 2000)
         } catch (error) {
             console.log(error);
         }

@@ -26,9 +26,10 @@ const Profile = () => {
 
     const [value, setValue] = useState("post");
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+
+    const [openModel, setOpenModal] = useState(false);
+    const handleCloseProfileModal = () => setOpenModal(false);
+    const handleOpenProfileModal = () => setOpenModal(true);
 
     useEffect(() => {
         dispatch(findUserById(id));
@@ -36,15 +37,15 @@ const Profile = () => {
         // dispatch(getUsersReels(id))
     }, [id]);
 
-    let findUser = {
-        firstName: "abhinav",
-        lastName: "pharswan",
-        bio: "living life to fullest",
-        savedPosts: [1, 1, 1, 1, 1]
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    const isFollowingProfileUser = () => {
+        if (auth?.profileUser?.followers?.includes(auth?.user?.id))
+            return true
+        return false
     }
-    const [openModel, setOpenModal] = useState(false);
-    const handleCloseProfileModal = () => setOpenModal(false);
-    const handleOpenProfileModal = () => setOpenModal(true);
 
     const isSameUserAsProfile = () => {
         if (auth?.user?.id == auth?.profileUser?.id)
@@ -55,7 +56,7 @@ const Profile = () => {
 
     return (
         <div className="py-10  w-[70%] ">
-            <div className="rounded-md  ">
+            <div className="rounded-md  border-2">
                 <div className=" h-[15rem]">
                     <img
                         className="w-full h-full rounded-t-md"
@@ -66,7 +67,7 @@ const Profile = () => {
                 <div className="px-5 flex justify-between items-start mt-5 h-[5rem]">
                     <Avatar
                         alt="Avatar"
-                        src="https://cdn.pixabay.com/photo/2016/11/18/19/07/happy-1836445_1280.jpg"
+                        src={auth?.profileUser?.image}
                         className="transform -translate-y-24 "
                         sx={{ width: "10rem", height: "10rem", bgcolor: "#212534", color: "rgb(88,199,250)" }}
                         color="primary"
@@ -85,7 +86,7 @@ const Profile = () => {
                             variant="outlined"
                             className="rounded-full"
                         >
-                            {true ? "Unfollow" : "Follow"}
+                            {isFollowingProfileUser() ? "Unfollow" : "Follow"}
                         </Button>}
                 </div>
                 <div className="p-5">
@@ -107,7 +108,7 @@ const Profile = () => {
                         <p>{auth?.profileUser?.bio} </p>
                     </div>
                 </div>
-                <section>
+                {(isFollowingProfileUser() || isSameUserAsProfile()) && <section>
                     <Box sx={{ width: "100%", borderBottom: 1, borderColor: "divider" }}>
                         <Tabs
                             value={value}
@@ -141,10 +142,10 @@ const Profile = () => {
                             <div>{auth?.profileUser?.savedPosts?.map((item) => <PostCard item={item} />)}</div>
                         )}
                     </div>
-                </section>
+                </section>}
             </div>
             <section>
-                <ProfileModal open={openModel} handleClose={handleCloseProfileModal} />
+                <ProfileModal open={openModel} handleClose={handleCloseProfileModal} user={auth?.profileUser} />
             </section>
         </div>
     )

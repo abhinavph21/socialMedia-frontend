@@ -27,6 +27,7 @@ export const postReducer = (state = initialState, action) => {
                 error: null,
             };
         case GET_ALL_POST_SUCCESS:
+            return { ...state, posts: action.payload, loading: false, error: null };
         case GET_USERS_POST_SUCCESS:
             return { ...state, profileUserPosts: action.payload, loading: false, error: null };
         case LIKE_POST_SUCCESS:
