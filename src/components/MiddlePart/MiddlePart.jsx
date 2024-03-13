@@ -12,14 +12,25 @@ import CreatePostModal from '../CreatePost/CreatePostModal';
 import { getAllPost } from '../../redux/post/post.action';
 import { useSelector } from 'react-redux';
 
-const story = [1, 1, 1, 1]
+const story = [{
+    image: "https://cdn.pixabay.com/photo/2018/08/28/14/15/men-3637657_1280.jpg",
+    username: "ambar"
+},
+{
+    image: "https://cdn.pixabay.com/photo/2016/10/26/17/33/effect-1772029_1280.jpg",
+    username: "abhinav"
+},
+{
+    image: "https://cdn.pixabay.com/photo/2019/06/06/12/33/macbook-4255892_1280.jpg",
+    username: "anjali"
+}]
 // const posts = [1, 1, 1, 1]
 
 const MiddlePart = () => {
     const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
     const dispatch = useDispatch()
 
-    const posts = useSelector((store) => store.post.posts)
+    const post = useSelector((store) => store?.post)
 
     useEffect(() => {
         dispatch(getAllPost());
@@ -39,7 +50,7 @@ const MiddlePart = () => {
                 </div>
 
                 {story.map((item, idx) => (
-                    <StoryCircle key={idx} />
+                    <StoryCircle key={idx} item={item} />
                 ))}
             </div>
             <div className="card p-5 mt-5">
@@ -62,14 +73,14 @@ const MiddlePart = () => {
                         <span>media</span>
                     </div>
                     <div className="flex  items-center">
-                        <IconButton color="primary">
+                        <IconButton color="primary" onClick={handleOpenCreatePostModal}>
                             <VideocamIcon />
                         </IconButton>
 
                         <span>video</span>
                     </div>
                     <div className="flex  items-center">
-                        <IconButton color="primary">
+                        <IconButton color="primary" onClick={handleOpenCreatePostModal}>
                             <ArticleIcon />
                         </IconButton>
 
@@ -78,7 +89,7 @@ const MiddlePart = () => {
                 </div>
             </div>
             <div className="mt-5 space-y-5">
-                {posts.map((item, idx) => (
+                {post?.posts.map((item, idx) => (
                     <PostCard key={idx} item={item} />
                 ))}
             </div>

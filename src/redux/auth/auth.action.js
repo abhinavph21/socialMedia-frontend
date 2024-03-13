@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { API_BASE_URL } from '../../config/api'
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, GET_PROFILE_REUEST, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE, SEARCH_USER_SUCCESS, SEARCH_USER_FAILURE } from './auth.actionType';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, GET_PROFILE_REUEST, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE, SEARCH_USER_SUCCESS, SEARCH_USER_FAILURE, FIND_USER_BY_ID_REQUEST, FIND_USER_BY_ID_SUCCESS, FIND_USER_BY_ID_FAILURE } from './auth.actionType';
 import { api } from '../../config/api';
 
 export const loginUser = (loginData) => async (dispatch) => {
@@ -20,7 +20,6 @@ export const loginUser = (loginData) => async (dispatch) => {
 };
 
 export const registerUser = (userData) => async (dispatch) => {
-    console.log(userData);
     dispatch({ type: REGISTER_REQUEST });
     try {
         const response = await axios.post(`${API_BASE_URL}/auth/signup`, userData.data);
@@ -46,7 +45,6 @@ export const getUserProfile = (jwt) => async (dispatch) => {
             }
         });
         const user = response.data;
-        // console.log("login user -: ", user);
 
         dispatch({ type: GET_PROFILE_SUCCESS, payload: user });
     } catch (error) {
@@ -67,6 +65,20 @@ export const updateUserProfile = (reqData) => async (dispatch) => {
         dispatch({ type: UPDATE_USER_SUCCESS, payload: user });
     } catch (error) {
         dispatch({ type: UPDATE_USER_FAILURE, payload: error.message });
+    }
+};
+
+export const findUserById = (userId) => async (dispatch) => {
+    dispatch({ type: FIND_USER_BY_ID_REQUEST })
+    try {
+        const response = await api.get(`/api/users/${userId}`);
+        const user = response.data;
+
+        dispatch({ type: FIND_USER_BY_ID_SUCCESS, payload: user });
+    } catch (error) {
+        dispatch(
+            { type: FIND_USER_BY_ID_FAILURE, error: error.message }
+        );
     }
 };
 

@@ -5,6 +5,7 @@ function ChatMessage({ item }) {
 
     const auth = useSelector(store => store.auth)
     const isReqUserMessage = auth?.user?.id === item?.user?.id
+    // console.log(isReqUserMessage);
 
     return (
         <div className={` flex ${!isReqUserMessage ? 'justify-start ' : 'justify-end '}`}>

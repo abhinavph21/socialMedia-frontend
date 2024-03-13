@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -14,16 +14,17 @@ import ShareIcon from "@mui/icons-material/Share";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { pink, red } from "@mui/material/colors";
 
-
 import { useDispatch, useSelector } from 'react-redux';
 
 import { likePost } from '../../redux/post/post.action';
-import { createComment } from '../../redux/comment/comment.action';
+import { createComment } from '../../redux/post/post.action';
 
 const PostCard = ({ item }) => {
-    const [showComment, setShowComment] = React.useState(false);
     const auth = useSelector(store => store.auth)
     const dispatch = useDispatch();
+
+    const [showComment, setShowComment] = useState(false);
+    const [inputComment, setInputComment] = useState("")
 
 
     const handleCreateComment = (content) => {
@@ -40,6 +41,10 @@ const PostCard = ({ item }) => {
                 return true
         }
         return false
+    }
+
+    const isPostByUser = () => {
+        return auth?.user?.id != item?.user?.id
     }
 
     return (
@@ -100,25 +105,28 @@ const PostCard = ({ item }) => {
                 </div> */}
 
             </CardActions>
-            {showComment && <section>
-                {auth?.user?.id != item?.user?.id && <div className="flex items-center space-x-5 mx-3 my-5">
+            {showComment && <section className={!(isPostByUser() && item?.comments) ? "hidden" : ""}>
+                {isPostByUser() && <div className="flex items-center space-x-5 mx-3 my-5">
                     <Avatar sx={{ bgcolor: "#212534", color: "rgb(88,199,250)" }} />
                     <input
                         onKeyPress={(e) => {
-                            console.log("e", e.target.value);
                             if (e.key === "Enter") {
-                                console.log("--------");
                                 handleCreateComment(e.target.value);
+                                setInputComment("")
                             }
                         }}
+                        onChange={(e) => {
+                            setInputComment(e.target.value)
+                        }}
+                        value={inputComment}
                         className="w-full outline-none bg-transparent border border-[#3b4054] rounded-full px-5 py-2"
                         type="text"
                         placeholder="write your comment..."
                     />
                 </div>}
-                <Divider />
+                {!isPostByUser() && <Divider />}
                 <div className="mx-3 space-y-2 my-5 text-xs">
-                    {item?.comments.map((comment) => (
+                    {item?.comments?.map((comment) => (
                         <div className="flex justify-between items-center" key={comment.id}>
                             <div className="flex items-center space-x-5">
                                 <Avatar

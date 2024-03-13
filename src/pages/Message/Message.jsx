@@ -26,12 +26,13 @@ import SearchUser from "../../components/SearchUser/SearchUser";
 import UserChatCard from "../../components/Message/UserChatCard";
 import ChatMessage from "../../components/Message/ChatMessage";
 import { createChat, createMessage, getAllChats } from "../../redux/message/message.action";
-// import SockJS from "sockjs-client";
-// import Stomp from 'stompjs';
+import SockJS from "sockjs-client";
+import Stomp from 'stompjs';
 
 const Message = () => {
     const dispatch = useDispatch();
-    const { message, auth } = useSelector((store) => store);
+    const message = useSelector((store) => store.message);
+    const auth = useSelector(store => store.auth)
     const [currentChat, setCurrentChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -39,39 +40,80 @@ const Message = () => {
     const chatContainerRef = useRef(null);
     const [stompClient, setStompClient] = useState(null);
 
-
     const [inputMessage, setInputMessage] = useState('');
+
+    const onConnect = (frem) => {
+        // console.log("connect frem : ", frem)
+    }
+    const onErr = (err) => {
+        console.log("error when connect ", err)
+    }
+
+    useEffect(() => {
+        const socket = new SockJS("http://localhost:8080/ws")
+        const stomp = Stomp.over(socket)
+        setStompClient(stomp)
+        stomp.connect({}, onConnect, onErr);
+
+    }, [])
+
+    // console.log(stompClient, auth.user, currentChat);
+
+    useEffect(() => {
+        if (stompClient && auth.user && currentChat) {
+            const subscription = stompClient.subscribe(`/user/${currentChat.id}/private`, onMessageRecive)
+            console.log("subscription", subscription);
+
+        }
+    }, [currentChat, stompClient, auth?.user])
+
+    // useEffect(() => {
+    //     setMessages(() => {
+    //         let chat = message?.chats?.find((chat) => chat?.id == currentChat?.id)
+    //         return chat?.messages
+    //     })
+    // }, [message])
 
     useEffect(() => {
         dispatch(getAllChats());
     }, [currentChat]);
 
+    const sendMessageToServer = (message) => {
+        if (stompClient && message) {
+            console.log(message);
+            // const messageToSend = { content: inputMessage }; // Customize this according to your message structure
+            stompClient.send(`/app/chat/${currentChat?.id.toString()}`, {}, JSON.stringify(message));
+        }
+    };
+
+    const onMessageRecive = (payload) => {
+        console.log("onMessageRecive ............. -----------", payload);
+
+        console.log("recive message -  - - - - - - -  -", JSON.parse(payload.body));
+
+        const recievedMessage = JSON.parse(payload.body);
+
+        setMessages((messages) => [...messages, recievedMessage]);
+    };
+    // normal
     const handleSelectImage = async (event) => {
         setLoading(true);
         const imgUrl = await uploadToCloudinary(event.target.files[0], "image");
-        console.log(imgUrl);
         setSelectedImage(imgUrl);
         setLoading(false);
     };
 
     const handleCreateMessage = (value) => {
         const message = {
-            chatId: currentChat.id,
             content: value,
             image: selectedImage,
+            user: auth?.user
         };
-        // const data = { message, sendToServer: sendMessageToServer }
-        dispatch(createMessage(message));
+        const data = {
+            message, sendToServer: sendMessageToServer, chatId: currentChat?.id,
+        }
+        dispatch(createMessage(data));
         setSelectedImage(null);
-    };
-    console.log(messages);
-
-    const sendMessageToServer = (message) => {
-        // if (stompClient && message) {
-        //     // const messageToSend = { content: inputMessage }; // Customize this according to your message structure
-        //     stompClient.send(`/app/chat/${currentChat?.id.toString()}`, {}, JSON.stringify(message));
-
-        // }
     };
 
     const handleCreateChat = (userId) => {
@@ -122,7 +164,7 @@ const Message = () => {
                             <div className="flex justify-between items-center bg-[#191c29] border-l  p-5">
                                 <div className="flex items-center space-x-3">
                                     <Avatar src="https://cdn.pixabay.com/photo/2016/04/17/20/19/woman-1335487_640.jpg" />
-                                    <p>{currentChat?.chat_name || "anjali"}</p>
+                                    <p>{currentChat?.chat_name}</p>
                                 </div>
                                 <div className="flex space-x-3">
                                     <IconButton>

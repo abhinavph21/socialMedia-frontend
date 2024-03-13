@@ -7,7 +7,7 @@ export const createMessage = (data) => {
         console.log("body ", data)
         dispatch({ type: actionTypes.CREATE_MESSAGE_REQUEST })
         try {
-            const response = await api.post(`/api/chats/${data.chatId}/messages`, data);
+            const response = await api.post(`/api/chats/${data?.chatId}/messages`, data?.message);
 
             console.log("created message ---- ", response.data)
 
@@ -47,7 +47,7 @@ export const getAllChats = () => {
         dispatch({ type: actionTypes.GET_ALL_CHATS_REQUEST })
         try {
             const response = await api.get(`/api/chats`);
-
+            // console.log(response, "all chats");
             dispatch({
                 type: actionTypes.GET_ALL_CHATS_SUCCESS,
                 payload: response.data,

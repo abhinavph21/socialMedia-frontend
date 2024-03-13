@@ -1,25 +1,40 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from "react-router-dom";
 import { Avatar, Box, Button, Card, Tab, Tabs } from "@mui/material";
 import PostCard from '../../components/Post/PostCard';
 import UserReelsCard from '../Reels/UserReelsCard';
 import ProfileModal from './ProfileModal';
+import { getUsersPost } from '../../redux/post/post.action';
+import { findUserById } from '../../redux/auth/auth.action';
 
 const tabs = [
     { value: "post", name: "Post" },
     { value: "reels", name: "Reels" },
-    { value: "saved", name: "Saved" },
-    { value: "repost", name: "Repost" },
+    { value: "saved", name: "Saved" }
 ];
 
-const posts = [1, 1, 1, 1]
 const reels = [{ video: "https://media.istockphoto.com/id/1365548761/video/futuristic-city-connected-to-social-media-high-tech-vision-of-london-augmented-reality-england.mp4?s=mp4-640x640-is&k=20&c=GvaeoZIqY5XTmdnNz_55dJKuD8b9LXYPOUm2b34si4o=" }, { video: "https://media.istockphoto.com/id/1365301176/video/live-streaming-at-home.mp4?s=mp4-640x640-is&k=20&c=Di2HvwMssZAIzO5fh9T2CSY0v9SHSgLZ4SyMncWnjqw=" }, { video: "https://media.istockphoto.com/id/1365548761/video/futuristic-city-connected-to-social-media-high-tech-vision-of-london-augmented-reality-england.mp4?s=mp4-640x640-is&k=20&c=GvaeoZIqY5XTmdnNz_55dJKuD8b9LXYPOUm2b34si4o=" }, { video: "https://media.istockphoto.com/id/1365301176/video/live-streaming-at-home.mp4?s=mp4-640x640-is&k=20&c=Di2HvwMssZAIzO5fh9T2CSY0v9SHSgLZ4SyMncWnjqw=" }, { video: "https://media.istockphoto.com/id/1365548761/video/futuristic-city-connected-to-social-media-high-tech-vision-of-london-augmented-reality-england.mp4?s=mp4-640x640-is&k=20&c=GvaeoZIqY5XTmdnNz_55dJKuD8b9LXYPOUm2b34si4o=" }, { video: "https://media.istockphoto.com/id/1365301176/video/live-streaming-at-home.mp4?s=mp4-640x640-is&k=20&c=Di2HvwMssZAIzO5fh9T2CSY0v9SHSgLZ4SyMncWnjqw=" }]
 
 
 const Profile = () => {
-    const [value, setValue] = React.useState("post");
+    const dispatch = useDispatch()
+    const { id } = useParams();
+
+    const storePost = useSelector(store => store.post)
+    const auth = useSelector(store => store.auth)
+
+    const [value, setValue] = useState("post");
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    useEffect(() => {
+        dispatch(findUserById(id));
+        dispatch(getUsersPost(id))
+        // dispatch(getUsersReels(id))
+    }, [id]);
 
     let findUser = {
         firstName: "abhinav",
@@ -30,6 +45,13 @@ const Profile = () => {
     const [openModel, setOpenModal] = useState(false);
     const handleCloseProfileModal = () => setOpenModal(false);
     const handleOpenProfileModal = () => setOpenModal(true);
+
+    const isSameUserAsProfile = () => {
+        if (auth?.user?.id == auth?.profileUser?.id)
+            return true
+        return false
+    }
+
 
     return (
         <div className="py-10  w-[70%] ">
@@ -49,8 +71,8 @@ const Profile = () => {
                         sx={{ width: "10rem", height: "10rem", bgcolor: "#212534", color: "rgb(88,199,250)" }}
                         color="primary"
                     />
-                    {true ? <Button
-                        // onClick={handleOpenProfileModal}
+                    {isSameUserAsProfile() ? <Button
+                        onClick={handleOpenProfileModal}
                         sx={{ borderRadius: "20px" }}
                         variant="outlined"
                         className="rounded-full"
@@ -68,21 +90,21 @@ const Profile = () => {
                 </div>
                 <div className="p-5">
                     <div>
-                        <h1 className="py-1 font-bold text-xl text-left">{findUser?.firstName + " " + findUser?.lastName}</h1>
+                        <h1 className="py-1 font-bold text-xl text-left">{auth?.profileUser?.firstName + " " + auth?.profileUser?.lastName}</h1>
                         <p className='text-left'>
                             @
-                            {findUser?.firstName?.toLowerCase() +
+                            {auth?.profileUser?.firstName?.toLowerCase() +
                                 "_" +
-                                findUser?.lastName?.toLowerCase()}
+                                auth?.profileUser?.lastName?.toLowerCase()}
                         </p>
                     </div>
                     <div className="flex space-x-5 items-center py-3">
-                        <span>41 posts</span>
-                        <span>71 followers</span>
-                        <span>22 following</span>
+                        <span>{storePost?.profileUserPosts?.length} posts</span>
+                        <span>{auth?.user?.followers ? auth?.user?.followers.length : 0} followers</span>
+                        <span>{auth?.user?.following ? auth?.user?.following.length : 0} following</span>
                     </div>
                     <div className="text-left">
-                        <p>{findUser?.bio} </p>
+                        <p>{auth?.profileUser?.bio} </p>
                     </div>
                 </div>
                 <section>
@@ -93,15 +115,15 @@ const Profile = () => {
                             aria-label="wrapped label tabs example"
                         >
                             {tabs.map((item) => (
-                                <Tab value={item.value} label={item.name} wrapped />
+                                <Tab value={item.value} label={item.name} wrapped key={item.value} />
                             ))}
                         </Tabs>
                     </Box>
                     <div className="flex justify-center">
                         {value === "post" ? (
                             <div className="space-y-5 w-[70%] my-10">
-                                {posts.map((item) => (
-                                    <div className="border border-[#3b4054] rounded-md">
+                                {storePost?.profileUserPosts?.map((item) => (
+                                    <div className="border border-[#3b4054] rounded-md" key={item.id}>
                                         <PostCard item={item} />{" "}
                                     </div>
                                 ))}
@@ -116,7 +138,7 @@ const Profile = () => {
                                 ))}
                             </div>
                         ) : (
-                            <div>{findUser?.savedPosts?.map((item) => <PostCard item={item} />)}</div>
+                            <div>{auth?.profileUser?.savedPosts?.map((item) => <PostCard item={item} />)}</div>
                         )}
                     </div>
                 </section>
