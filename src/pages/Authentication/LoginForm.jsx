@@ -27,18 +27,14 @@ const LoginForm = () => {
     const navigate = useNavigate();
 
 
-    const handleSubmit = (values, { setSubmitting }) => {
+    const handleSubmit = (values) => {
         // Handle form submission here
-        try {
-            console.log(values);
-            dispatch(loginUser({ data: values }))
-            setTimeout(() => {
-                console.log("delay");
-                navigate("/")
-            }, 2000)
-        } catch (error) {
-            console.log(error);
-        }
+        console.log(values);
+        dispatch(loginUser({ data: values }))
+        setTimeout(() => {
+            console.log("delay");
+            // navigate("/")
+        }, 2000)
     };
 
     return (

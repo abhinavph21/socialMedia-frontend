@@ -56,11 +56,11 @@ const PostCard = ({ item }) => {
                         {item?.user?.firstName[0]}
                     </Avatar>
                 }
-                action={
-                    <IconButton color="primary" aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                }
+                // action={
+                //     <IconButton color="primary" aria-label="settings">
+                //         <MoreVertIcon />
+                //     </IconButton>
+                // }
                 title={item?.user?.firstName + " " + item?.user?.lastName}
                 subheader={
                     "@" +

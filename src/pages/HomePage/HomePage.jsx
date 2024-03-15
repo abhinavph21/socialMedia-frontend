@@ -3,9 +3,9 @@ import { Grid } from "@mui/material"
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import MiddlePart from '../../components/MiddlePart/MiddlePart'
-import CreateReelsForm from '../../components/Reels/CreateReelsForm'
+import CreateReelsForm from '../Reels/CreateReelsForm'
 import Profile from '../Profile/Profile'
-import Reels from '../../components/Reels/Reels'
+import Reels from '../Reels/Reels'
 import HomeRight from '../../components/HomeRight/HomeRight'
 
 const HomePage = () => {

@@ -1,6 +1,7 @@
 import {
     Avatar,
     Backdrop,
+    Button,
     CircularProgress,
     Divider,
     Grid,
@@ -28,9 +29,12 @@ import ChatMessage from "../../components/Message/ChatMessage";
 import { createChat, createMessage, getAllChats } from "../../redux/message/message.action";
 import SockJS from "sockjs-client";
 import Stomp from 'stompjs';
+import { useNavigate } from "react-router-dom";
 
 const Message = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
+
     const message = useSelector((store) => store.message);
     const auth = useSelector(store => store.auth)
     const [currentChat, setCurrentChat] = useState(null);
@@ -126,9 +130,12 @@ const Message = () => {
                 <Grid className="px-5 bg-[#191c29] " xs={3} item>
                     <div className="flex h-full justify-between space-x-2">
                         <div className="w-full">
-                            <div className="flex space-x-4 items-center py-5 ">
-                                <WestIcon />
-                                <h1 className=" text-xl font-bold">Home</h1>{" "}
+                            <div className="flex space-x-4 items-center py-5 " >
+                                <Button
+                                    onClick={() => { navigate("/") }}>
+                                    <WestIcon />
+                                    <h1 className=" text-xl font-bold">Home</h1>{" "}
+                                </Button>
                             </div>
 
                             <div className="h-[83vh]">

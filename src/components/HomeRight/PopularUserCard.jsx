@@ -8,6 +8,7 @@ const PopularUserCard = ({ user }) => {
 
     const handleFollowUser = () => {
         dispatch(followUser(user?.id))
+        alert("you are now following " + user?.firstName + " " + user?.lastName)
     }
     return (
         <div className='flex justify-between items-center'>

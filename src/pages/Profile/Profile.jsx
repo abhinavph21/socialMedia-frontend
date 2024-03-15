@@ -7,14 +7,12 @@ import UserReelsCard from '../Reels/UserReelsCard';
 import ProfileModal from './ProfileModal';
 import { getUsersPost } from '../../redux/post/post.action';
 import { findUserById } from '../../redux/auth/auth.action';
-
+import { getUsersReels } from '../../redux/reels/reels.action';
 const tabs = [
     { value: "post", name: "Post" },
     { value: "reels", name: "Reels" },
-    { value: "saved", name: "Saved" }
+    // { value: "saved", name: "Saved" }
 ];
-
-const reels = [{ video: "https://media.istockphoto.com/id/1365548761/video/futuristic-city-connected-to-social-media-high-tech-vision-of-london-augmented-reality-england.mp4?s=mp4-640x640-is&k=20&c=GvaeoZIqY5XTmdnNz_55dJKuD8b9LXYPOUm2b34si4o=" }, { video: "https://media.istockphoto.com/id/1365301176/video/live-streaming-at-home.mp4?s=mp4-640x640-is&k=20&c=Di2HvwMssZAIzO5fh9T2CSY0v9SHSgLZ4SyMncWnjqw=" }, { video: "https://media.istockphoto.com/id/1365548761/video/futuristic-city-connected-to-social-media-high-tech-vision-of-london-augmented-reality-england.mp4?s=mp4-640x640-is&k=20&c=GvaeoZIqY5XTmdnNz_55dJKuD8b9LXYPOUm2b34si4o=" }, { video: "https://media.istockphoto.com/id/1365301176/video/live-streaming-at-home.mp4?s=mp4-640x640-is&k=20&c=Di2HvwMssZAIzO5fh9T2CSY0v9SHSgLZ4SyMncWnjqw=" }, { video: "https://media.istockphoto.com/id/1365548761/video/futuristic-city-connected-to-social-media-high-tech-vision-of-london-augmented-reality-england.mp4?s=mp4-640x640-is&k=20&c=GvaeoZIqY5XTmdnNz_55dJKuD8b9LXYPOUm2b34si4o=" }, { video: "https://media.istockphoto.com/id/1365301176/video/live-streaming-at-home.mp4?s=mp4-640x640-is&k=20&c=Di2HvwMssZAIzO5fh9T2CSY0v9SHSgLZ4SyMncWnjqw=" }]
 
 
 const Profile = () => {
@@ -22,6 +20,7 @@ const Profile = () => {
     const { id } = useParams();
 
     const storePost = useSelector(store => store.post)
+    const reel = useSelector(store => store.reel)
     const auth = useSelector(store => store.auth)
 
     const [value, setValue] = useState("post");
@@ -34,7 +33,7 @@ const Profile = () => {
     useEffect(() => {
         dispatch(findUserById(id));
         dispatch(getUsersPost(id))
-        // dispatch(getUsersReels(id))
+        dispatch(getUsersReels(id))
     }, [id]);
 
     const handleChange = (event, newValue) => {
@@ -86,7 +85,7 @@ const Profile = () => {
                             variant="outlined"
                             className="rounded-full"
                         >
-                            {isFollowingProfileUser() ? "Unfollow" : "Follow"}
+                            {isFollowingProfileUser() ? "Following" : "Follow"}
                         </Button>}
                 </div>
                 <div className="p-5">
@@ -134,8 +133,8 @@ const Profile = () => {
                         ) : value === "reels" ? (
                             <div className="flex flex-wrap py-5">
 
-                                {reels.map((reel) => (
-                                    <UserReelsCard reel={reel} />
+                                {reel?.profileReels?.map((reel) => (
+                                    <UserReelsCard reel={reel} key={reel.id} />
                                 ))}
                             </div>
                         ) : (
