@@ -7,7 +7,7 @@ const StoryCircle = ({ item }) => {
         <div className="cursor-pointer flex flex-col items-center mr-4" >
             <Avatar sx={{ width: "5rem", height: "5rem" }} className="rounded-full" src={item?.image} alt="" />
             <p >
-                {item?.username?.length > 9 ? item.username.substring(0, 9) + "..." : item?.username}
+                {item?.firstName?.length > 9 ? item.firstName.substring(0, 9) + "..." : item?.firstName}
             </p>
         </div>
     );

@@ -71,7 +71,9 @@ const PostCard = ({ item }) => {
             />
             <CardMedia
                 component="img"
-                height="194"
+                sx={{
+                    maxHeight: '350px'
+                }}
                 image={item?.image}
                 alt={item.caption}
             />
@@ -89,9 +91,9 @@ const PostCard = ({ item }) => {
                             <FavoriteBorderIcon />
                         )}
                     </IconButton>
-                    <IconButton color="primary" aria-label="share">
+                    {/* <IconButton color="primary" aria-label="share">
                         <ShareIcon />
-                    </IconButton>
+                    </IconButton> */}
                     <IconButton color="primary" onClick={() => setShowComment(!showComment)}>
                         <ChatBubbleOutlineIcon />
                     </IconButton>
@@ -136,11 +138,11 @@ const PostCard = ({ item }) => {
                                 </Avatar>
                                 <p>{comment.content}</p>
                             </div>
-                            <div>
+                            {/* <div>
                                 <IconButton color="primary">
                                     <FavoriteBorderIcon sx={{ fontSize: "1rem" }} />
                                 </IconButton>
-                            </div>
+                            </div> */}
                         </div>
                     ))}
                 </div>

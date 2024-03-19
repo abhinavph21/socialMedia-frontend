@@ -22,7 +22,6 @@ const HomeRight = () => {
         if (users?.length < 5)
             lastIndex = users.length
         let subArray = users.slice(0, lastIndex)
-        console.log(subArray);
         setPopularUsers(subArray)
     }, [auth?.allUsers])
     // console.log(auth?.allUsers);

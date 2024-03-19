@@ -6,8 +6,9 @@ import PostCard from '../../components/Post/PostCard';
 import UserReelsCard from '../Reels/UserReelsCard';
 import ProfileModal from './ProfileModal';
 import { getUsersPost } from '../../redux/post/post.action';
-import { findUserById } from '../../redux/auth/auth.action';
+import { findUserById, followUser } from '../../redux/auth/auth.action';
 import { getUsersReels } from '../../redux/reels/reels.action';
+
 const tabs = [
     { value: "post", name: "Post" },
     { value: "reels", name: "Reels" },
@@ -22,7 +23,7 @@ const Profile = () => {
     const storePost = useSelector(store => store.post)
     const reel = useSelector(store => store.reel)
     const auth = useSelector(store => store.auth)
-
+    // const auth = useSelector(store => store.auth)
     const [value, setValue] = useState("post");
 
 
@@ -46,12 +47,17 @@ const Profile = () => {
         return false
     }
 
+    const handleFollowUser = () => {
+        !isFollowingProfileUser() && dispatch(followUser(auth?.profileUser?.id))
+        alert("you are now following " + auth?.profileUser?.firstName + " " + auth?.profileUser?.lastName)
+    }
+
     const isSameUserAsProfile = () => {
         if (auth?.user?.id == auth?.profileUser?.id)
             return true
         return false
     }
-
+    // console.log(auth);
 
     return (
         <div className="py-10  w-[70%] ">
@@ -80,7 +86,7 @@ const Profile = () => {
                         Edit Profile
                     </Button> :
                         <Button
-                            // onClick={handleFollowUser}
+                            onClick={handleFollowUser}
                             sx={{ borderRadius: "20px" }}
                             variant="outlined"
                             className="rounded-full"
@@ -100,8 +106,8 @@ const Profile = () => {
                     </div>
                     <div className="flex space-x-5 items-center py-3">
                         <span>{storePost?.profileUserPosts?.length} posts</span>
-                        <span>{auth?.user?.followers ? auth?.user?.followers.length : 0} followers</span>
-                        <span>{auth?.user?.following ? auth?.user?.following.length : 0} following</span>
+                        <span>{auth?.profileUser?.followers ? auth?.profileUser?.followers.length : 0} followers</span>
+                        <span>{auth?.profileUser?.following ? auth?.profileUser?.following.length : 0} following</span>
                     </div>
                     <div className="text-left">
                         <p>{auth?.profileUser?.bio} </p>

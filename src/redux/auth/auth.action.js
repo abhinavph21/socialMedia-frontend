@@ -85,6 +85,7 @@ export const findUserById = (userId) => async (dispatch) => {
 export const searchUser = (query) => async (dispatch) => {
     dispatch({ type: GET_PROFILE_REUEST });
     try {
+
         const response = await api.get(`${API_BASE_URL}/api/users/search?query=${query}`);
         const users = response.data;
 
@@ -99,7 +100,13 @@ export const searchUser = (query) => async (dispatch) => {
 export const getAllUsers = () => async (dispatch) => {
     dispatch({ type: GET_ALL_USERS_REQUEST });
     try {
-        const response = await api.get(`${API_BASE_URL}/api/users`);
+        const jwtToken = localStorage.getItem("jwt")
+        // const { data } = await api.get("/api/posts", )
+        const response = await axios.get(`${API_BASE_URL}/api/users`, {
+            headers: {
+                "Authorization": `Bearer ${jwtToken}`,
+            }
+        });
         const users = response.data;
 
         dispatch({ type: GET_ALL_USERS_SUCCESS, payload: users });

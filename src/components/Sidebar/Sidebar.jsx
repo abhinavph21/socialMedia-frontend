@@ -21,6 +21,14 @@ const Sidebar = () => {
         setAnchorEl(null);
     };
 
+    const handleLogout = () => {
+        console.log('jwt');
+        localStorage.removeItem('jwt')
+        setTimeout(() => {
+            navigate('/login')
+        }, 1000)
+    }
+
     return (
         <div className="card text-white  h-screen flex flex-col justify-between py-5 bg-[rgb(3,11,40)]">
             <div className="space-y-8 pl-5">
@@ -75,7 +83,7 @@ const Sidebar = () => {
                             "aria-labelledby": "basic-button",
                         }}
                     >
-                        <MenuItem >Logout</MenuItem>
+                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
                     </Menu>
                 </div>
             </div>

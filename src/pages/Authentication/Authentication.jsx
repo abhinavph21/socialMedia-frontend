@@ -35,7 +35,7 @@ const Authentication = () => {
                                 </p>
                             </div>
                             <Routes>
-                                <Route path="/" element={<LoginForm />} />
+                                <Route path="/" element={<RegistrationForm />} />
                                 <Route path="/login" element={<LoginForm />} />
                                 <Route path="/register" element={<RegistrationForm />} />
                             </Routes>

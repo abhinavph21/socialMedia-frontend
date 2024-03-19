@@ -30,10 +30,9 @@ const UserChatCard = ({ item }) => {
                 </IconButton>
             }
             title={
-                (item.users[1]?.email != auth?.user?.email) ? item.users[1]?.email : item.users[0]?.email
-                // item?.chat_name
+                (item?.users[1]?.email != auth?.user?.email) ? item.users[1]?.email : item?.users[0]?.email
             }
-            subheader={item?.messages[item?.messages?.length - 1]?.content}
+            subheader={item?.messages && item.messages[item.messages.length - 1]?.content}
         />
     );
 };

@@ -16,9 +16,13 @@ export const createPost = (postData) => async (dispatch) => {
 export const getAllPost = () => async (dispatch) => {
     dispatch({ type: GET_ALL_POST_REQUEST })
     try {
-
-        const { data } = await api.get("/api/posts")
-        console.log(data, "posts");
+        const jwtToken = localStorage.getItem("jwt")
+        const { data } = await api.get("/api/posts", {
+            headers: {
+                "Authorization": `Bearer ${jwtToken}`,
+            }
+        })
+        // console.log(data, "posts");
         dispatch({ type: GET_ALL_POST_SUCCESS, payload: data })
 
 

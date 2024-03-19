@@ -12,31 +12,41 @@ import CreatePostModal from '../CreatePost/CreatePostModal';
 import { getAllPost } from '../../redux/post/post.action';
 import { useSelector } from 'react-redux';
 
-const story = [{
-    image: "https://cdn.pixabay.com/photo/2018/08/28/14/15/men-3637657_1280.jpg",
-    username: "ambar"
-},
-{
-    image: "https://cdn.pixabay.com/photo/2016/10/26/17/33/effect-1772029_1280.jpg",
-    username: "abhinav"
-},
-{
-    image: "https://cdn.pixabay.com/photo/2019/06/06/12/33/macbook-4255892_1280.jpg",
-    username: "anjali"
-}]
+// const story = [{
+//     image: "https://cdn.pixabay.com/photo/2018/08/28/14/15/men-3637657_1280.jpg",
+//     username: "ambar"
+// },
+// {
+//     image: "https://cdn.pixabay.com/photo/2016/10/26/17/33/effect-1772029_1280.jpg",
+//     username: "abhinav"
+// },
+// {
+//     image: "https://cdn.pixabay.com/photo/2019/06/06/12/33/macbook-4255892_1280.jpg",
+//     username: "anjali"
+// }]
 // const posts = [1, 1, 1, 1]
 
 const MiddlePart = () => {
-    const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
     const dispatch = useDispatch()
-
     const post = useSelector((store) => store?.post)
+    const auth = useSelector(store => store.auth)
+
+    const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
+    const [followedusers, setFollowedUsers] = useState([])
 
     useEffect(() => {
         dispatch(getAllPost());
     }, []);
 
-    // console.log(post);
+    useEffect(() => {
+        setFollowedUsers(() => {
+            let users = auth?.allUsers.filter((user) => {
+                if (auth?.user?.following?.includes(user.id))
+                    return true
+            })
+            return users
+        })
+    }, [auth])
 
     const handleOpenCreatePostModal = () => setOpenCreatePostModal(true);
     const handleCloseCreatePostModal = () => setOpenCreatePostModal(false);
@@ -51,7 +61,7 @@ const MiddlePart = () => {
                     <p>New</p>
                 </div>
 
-                {story.map((item, idx) => (
+                {followedusers?.map((item, idx) => (
                     <StoryCircle key={idx} item={item} />
                 ))}
             </div>

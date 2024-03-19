@@ -33,8 +33,8 @@ const LoginForm = () => {
         dispatch(loginUser({ data: values }))
         setTimeout(() => {
             console.log("delay");
-            // navigate("/")
-        }, 2000)
+            navigate("/")
+        }, 1500)
     };
 
     return (

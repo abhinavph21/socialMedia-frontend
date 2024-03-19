@@ -66,10 +66,12 @@ const Message = () => {
     useEffect(() => {
         if (stompClient && auth.user && currentChat) {
             const subscription = stompClient.subscribe(`/user/${currentChat.id}/private`, onMessageRecive)
-            console.log("subscription", subscription);
+            // console.log("subscription", subscription);
 
         }
     }, [currentChat, stompClient, auth?.user])
+
+    console.log(message);
 
     // useEffect(() => {
     //     setMessages(() => {
@@ -150,7 +152,7 @@ const Message = () => {
                                                 onClick={() => {
                                                     console.log(item);
                                                     setCurrentChat(item);
-                                                    setMessages(item.messages);
+                                                    setMessages(item?.messages || []);
                                                 }}
                                                 className="cursor-pointer bg-[#212534] rounded-md"
                                             >
@@ -170,8 +172,8 @@ const Message = () => {
                         <div>
                             <div className="flex justify-between items-center bg-[#191c29] border-l  p-5">
                                 <div className="flex items-center space-x-3">
-                                    <Avatar src="https://cdn.pixabay.com/photo/2016/04/17/20/19/woman-1335487_640.jpg" />
-                                    <p>{currentChat?.chat_name}</p>
+                                    <Avatar src={currentChat.users[1]?.image} />
+                                    <p>{currentChat?.users[1]?.firstName}</p>
                                 </div>
                                 <div className="flex space-x-3">
                                     <IconButton>
